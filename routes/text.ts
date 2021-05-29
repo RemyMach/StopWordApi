@@ -1,29 +1,35 @@
 import express from "express";
+import {removeStopwords} from "stopword";
 
 const router = express.Router();
 
 
 router.post("/",async  function(req, res) {
-    const data = req.body.data
+    let data = req.body.data
 
     if(data === undefined || data === '') {
         return res.status(400).json({ "error": "data have to be provide and wan't be empty" }).end();
     }
 
-    const result = data;
+    data = data.replace(/[^0-9a-z ']/gi, ' ');
+    let finalResult = "";
+
+    for (let i = 0;i<data.length-1; i++) {
+        if(!(data[i] === ' ' && data[i + 1] === ' '))
+            finalResult += data[i];
+    }
+
+    const resultArray = removeStopwords(finalResult.split(' '));
+    const result = resultArray.join(' ');
 
     
     if(result === null) {
-        return res.status(400).json({ "error": "wrong format for date param, you need to provide a date in the format ISO 8601" }).end();
+        return res.status(400).json({ "error": "error when getting stop word" }).end();
     }
 
-    if(result === false) {
-        res.status(200);
-        return res.json({"available": false}).end();
-    }
 
     res.status(200);
-    return res.json({"available": true}).end();
+    return res.json({"text": result}).end();
 });
 
 export default router;

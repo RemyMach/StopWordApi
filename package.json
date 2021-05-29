@@ -4,7 +4,8 @@
   "description": "",
   "main": "index.ts",
   "scripts": {
-    "start": "env-cmd -f config/dev.env nodemon --exec ts-node index.ts",
+    "build": "npx tsc",
+    "start": "node dist/index.js",
     "dev": "env-cmd -f config/dev.env nodemon --exec ts-node index.ts"
   },
   "author": "RemyMach",
@@ -18,6 +19,7 @@
   "devDependencies": {
     "@types/express": "^4.17.11",
     "@types/node": "^14.14.37",
+    "@types/stopword": "^1.0.0",
     "nodemon": "^2.0.7",
     "typescript": "^4.2.4"
   }
