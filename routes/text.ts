@@ -18,6 +18,8 @@ router.post("/",async  function(req, res) {
         if(!(data[i] === ' ' && data[i + 1] === ' '))
             finalResult += data[i];
     }
+    if(data[data.length-1] !== ' ')
+        finalResult += data[data.length-1];
 
     const resultArray = removeStopwords(finalResult.split(' '));
     const result = resultArray.join(' ');
